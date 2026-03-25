@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Track Docket</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Update Docket Status</h4>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/admin/trackDocket}" method="post">
+                <input type="hidden" name="id" th:value="${docket.id}" />
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">Case Number:</label>
+                    <p class="form-control-plaintext" th:text="${docket.caseNumber}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">Current Status:</label>
+                    <p class="form-control-plaintext" th:text="${docket.caseStatus}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="caseStatus" class="form-label font-weight-bold">Update Status:</label>
+                    <select class="form-select form-control" name="caseStatus" id="caseStatus" required>
+                        <option th:each="status : ${statusOptions}"
+                                th:value="${status}"
+                                th:text="${status}"
+                                th:selected="${status == docket.caseStatus}">
+                        </option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success">Update</button>
+                <a th:href="@{/admin/viewAllDockets}" class="btn btn-secondary ml-2">Back to All Dockets</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+
+  
+  <link
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    body, html {
+      height: 100%;
+      background: #f8f9fa;
+    }
+    .dashboard-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+    }
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+    }
+    .btn-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="card p-4 bg-white">
+    <h2 class="text-center mb-4 text-primary">Admin Dashboard</h2>
+
+    <a href="/admin/addNewUser" class="btn btn-primary btn-block mb-3">
+      <i class="bi bi-person-plus-fill"></i> Add New User
+    </a>
+
+    <a href="/admin/viewUsers" class="btn btn-primary btn-block mb-3">
+      <i class="bi bi-people-fill"></i> View Existing Users
+    </a>
+
+    <a href="/admin/viewAllDockets" class="btn btn-primary btn-block mb-3">
+      <i class="bi bi-folder-fill"></i> View Dockets
+    </a>
+
+    <a href="/admin/adminDeletedDockets" class="btn btn-danger btn-block mb-4">
+      <i class="bi bi-trash-fill"></i> Deleted Dockets
+    </a>
+
+    <form action="/admin/logout" method="get">
+      <button type="submit" class="btn btn-outline-danger btn-block">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 100px;">
+  <div style="position: fixed; top: 20px; right: 20px; z-index: 1080;">
+    <div id="deletedDocketsToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+         th:classappend="${showDeletedDocketsNotification} ? 'show' : ''" data-delay="5000">
+      <div class="toast-header">
+        <strong class="mr-auto text-danger">Attention</strong>
+        <small>Just now</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        There are deleted dockets pending review!
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(document).ready(function() {
+    if ($('#deletedDocketsToast').hasClass('show')) {
+      $('#deletedDocketsToast').toast('show');
+    }
+  });
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

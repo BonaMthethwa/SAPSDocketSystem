@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #343a40;
+            color: white;
+            transition: all 0.3s;
+            height: 100vh;
+            position: fixed;
+        }
+        #sidebar.collapsed {
+            min-width: 80px;
+            max-width: 80px;
+        }
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #212529;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        #sidebar ul.components {
+            padding: 0;
+            list-style: none;
+        }
+        #sidebar ul li {
+            padding: 15px 20px;
+        }
+        #sidebar ul li a {
+            color: white;
+            display: block;
+            text-decoration: none;
+        }
+        #sidebar ul li a:hover {
+            background: #495057;
+            text-decoration: none;
+        }
+        #sidebar ul li i {
+            margin-right: 10px;
+        }
+        #sidebar.collapsed ul li span {
+            display: none;
+        }
+        #sidebar.collapsed ul li i {
+            margin: 0;
+            text-align: center;
+            width: 100%;
+        }
+        #content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+        #content.collapsed {
+            margin-left: 80px;
+        }
+        .btn-dashboard {
+            width: 250px;
+            margin: 10px auto;
+            display: block;
+        }
+       
+        #sidebarCollapse {
+            position: fixed;
+            top: 15px;
+            left: 260px;
+            z-index: 999;
+            background: #343a40;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: left 0.3s;
+        }
+        #sidebarCollapse.collapsed {
+            left: 90px;
+        }
+        /* Logged in user */
+        #userInfo {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            #sidebar {
+                margin-left: -250px;
+                position: fixed;
+                z-index: 999;
+            }
+            #sidebar.collapsed {
+                margin-left: 0;
+                min-width: 250px;
+                max-width: 250px;
+            }
+            #content {
+                margin-left: 0;
+            }
+            #sidebarCollapse {
+                left: 15px;
+            }
+            #userInfo {
+                top: 60px;
+                right: 15px;
+            }
+        }
+         .highlight {
+        background-color: yellow !important;
+        transition: background-color 0.5s ease;
+    }
+    </style>
+</head>
+<body>
+
+
+<nav id="sidebar">
+    <div class="sidebar-header">
+        e-DOCKET SYSTEM
+    </div>
+    <ul class="components">
+        <li><a href="#" th:href="@{/profile}"><i class="fas fa-user"></i> <span>Profile</span></a></li>
+        
+        
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+    </ul>
+</nav>
+
+
+<button type="button" id="sidebarCollapse" class="">
+    <i class="fas fa-bars"></i>
+</button>
+
+
+<div id="userInfo" th:text="'Logged in as: ' + ${session.loggedUser.name} + ' ' + ${session.loggedUser.surname}">
+    Logged in as: John Doe
+</div>
+
+
+<div id="content">
+    <div class="d-flex justify-content-center mb-3">
+     <form action="#" th:action="@{/dockets/search}" method="get" class="form-inline mb-3">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="CASE-001-16-07-2025" class="form-control mr-2" required />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    
+<div class="mt-4" th:if="${dockets != null}">
+        <h4>Search Results:</h4>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Case Number</th>
+                    <th>Complainant</th>
+                    <th>Case Title</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="docket : ${dockets}"
+                    th:onclick="'location.href=\'/editDocket#docket-' + ${docket.id} + '\''"
+                    style="cursor: pointer;">
+                    <td th:text="${docket.caseNumber}"></td>
+                    <td th:text="${docket.complainantName}"></td>
+                    <td th:text="${docket.caseTitle}"></td>
+                    <td th:text="${docket.caseStatus}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+    Could not find the docket.
+</div>
+</div>    
+    
+    <h2 class="text-center mb-4">Menu</h2>
+    <a href="createDocket" class="btn btn-primary btn-dashboard">Create New Docket</a>
+    <a href="editDocket" class="btn btn-warning btn-dashboard">Update Existing Docket</a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const hash = window.location.hash;
+        if (hash) {
+            const row = document.querySelector(hash);
+            if (row) {
+                row.classList.add("highlight");
+                row.scrollIntoView({ behavior: "smooth", block: "center" });
+                setTimeout(() => {
+                    row.classList.remove("highlight");
+                }, 3000); 
+            }
+        }
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('collapsed');
+            $('#content').toggleClass('collapsed');
+            $(this).toggleClass('collapsed');
+        });
+    });
+</script>
+
+</body>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</html>

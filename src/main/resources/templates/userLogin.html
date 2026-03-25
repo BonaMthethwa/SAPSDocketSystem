@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: url('pop.jpg'); 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <h1 class="text-center">Login page for user</h1>
+                <p th:if="${error}" class="alert alert-danger" th:text="${error}"></p>
+                <form th:action="@{/userLogin}" method="post" class="mt-4">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" class="form-control" autofocus="autofocus" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <a th:href="@{/forgotPassword}" class="btn btn-link">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+ 

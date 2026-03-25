@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New User</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            margin-top: 60px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center">
+        <div class="form-container col-md-6">
+            <h2 class="text-center">Add New User</h2>
+
+            <p th:if="${success}" class="alert alert-success" th:text="${success}"></p>
+
+            <form action="/admin/addNewUser" method="POST">
+                <div class="form-group">
+                    <label for="persal">Persal</label>
+                    <input type="text" id="persal" name="persal" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cellphone">Cellphone</label>
+                    <input type="text" id="cellphone" name="cellphone" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Add User</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

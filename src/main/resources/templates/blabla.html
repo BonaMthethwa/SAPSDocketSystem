@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rich Text Editor</title>
+    <style>
+        .ribbon {
+            display: flex;
+            gap: 10px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .ribbon button {
+            padding: 6px 12px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #editor {
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 200px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Rich Text Editor</h2>
+
+    <div class="ribbon">
+        <button onclick="document.execCommand('bold', false, '')">Bold</button>
+        <button onclick="document.execCommand('italic', false, '')">Italic</button>
+        <button onclick="document.execCommand('underline', false, '')">Underline</button>
+        <button onclick="clearEditor()">Clear</button>
+    </div>
+
+    <form method="post" th:action="@{/save-text}">
+        <div id="editor" contenteditable="true" name="content"></div>
+        <input type="hidden" name="content" id="hiddenContent">
+        <br><br>
+        <button type="submit" onclick="saveContent()">Save</button>
+    </form>
+
+    <script>
+        function clearEditor() {
+            document.getElementById('editor').innerHTML = '';
+        }
+
+        function saveContent() {
+            const editor = document.getElementById('editor');
+            document.getElementById('hiddenContent').value = editor.innerHTML;
+        }
+    </script>
+</body>
+</html>
