@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Dockets</title>
+</head>
+<body>
+    <h1>All Dockets</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Docket ID</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Date Created</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="docket : ${dockets}">
+                <td th:text="${docket.id}"></td>
+                <td th:text="${docket.title}"></td>
+                <td th:text="${docket.status}"></td>
+                <td th:text="${docket.dateCreated}"></td>
+                
+            </tr>
+        </tbody>
+    </table>
+    
+</body>
+</html>

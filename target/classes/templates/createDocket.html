@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complainant Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Complaintant Details</h2>
+        <h5 class="text-center">Please fill in all the required details</h5>
+        
+        <form th:action="@{/createDocket}" th:object="${docket}" method="post" enctype="multipart/form-data">
+            
+            
+
+            <div class="form-group">
+                <label for="name">Complainant Name and Surname <span style="color: red;">*</span></label>
+                <input type="text" th:field="*{complainantName}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="cellphone">Complainant Cellphone <span style="color: red;">*</span></label>
+                <input type="tel" th:field="*{cellphone}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Complainant Email <span style="color: red;">*</span></label>
+                <input type="email" th:field="*{email}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="address">Complainant Address <span style="color: red;">*</span></label>
+                <textarea th:field="*{address}" class="form-control" rows="5" required></textarea>
+            </div>
+            
+    
+            <div>
+                <label for="caseTitle">Case Type: <span style="color: red;">*</span></label>
+                <select th:field="*{caseTitle}" class="form-control" required>
+                    <option value=""></option>
+                    <option value="Theft">Theft</option>
+                    <option value="Robbery">Robbery</option>
+                    <option value="Assault">Assault</option>
+                    <option value="Murder & Attempted Murder">Murder & Attempted Murder</option>
+                    <option value="Fraud">Fraud</option>
+                    <option value="Corruption & Bribery">Corruption & Bribery</option>
+                    <option value="Drug-Related Crimes">Drug-Related Crimes</option>
+                    <option value="Kidnapping & Abduction">Kidnapping & Abduction</option>
+                    <option value="Rape & Sexual Assault">Rape & Sexual Assault</option>
+                    <option value="Harassment & Intimidation">Harassment & Intimidation</option>
+                    <option value="Child Abuse & Neglect">Child Abuse & Neglect</option>
+                    <option value="Human Trafficking">Human Trafficking</option>
+                    <option value="Vandalism & Property Damage">Vandalism & Property Damage</option>
+                    <option value="Cybercrime">Cybercrime</option>
+                    <option value="Public Disturbances">Public Disturbances</option>
+                    <option value="Possession of Illegal Weapons">Possession of Illegal Weapons</option>
+                    <option value="Lost or Found Property">Lost or Found Property</option>
+                    <option value="Missing Persons">Missing Persons</option>
+                    <option value="Road Accidents">Road Accidents</option>
+                    <option value="Suicide Threats or Attempts">Suicide Threats or Attempts</option>
+                    <option value="Domestic Violence">Domestic Violence</option>
+                    <option value="Trespassing">Trespassing</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="statement">Complainant Statement <span style="color: red;">*</span></label>
+                <textarea th:field="*{caseStatement}" class="form-control" rows="10" required></textarea>
+            </div>
+
+            
+            <div class="form-group">
+    <label for="evidence">Attach Additional Evidence</label>
+    <input type="file" id="evidence" name="evidence" class="form-control-file" multiple onchange="showSelectedFiles()" />
+    <small class="form-text text-muted">You can upload multiple files.</small>
+
+    
+    <ul id="fileList" class="mt-2" style="list-style: none; padding-left: 0;"></ul>
+</div>
+
+            <div class="form-group">
+                <label for="statement">Additional statements </label>
+                <textarea th:field="*{additionalInfo}" class="form-control" rows="5"></textarea>
+            </div> 
+
+            <button type="submit" class="btn btn-primary btn-block">Save</button>
+            <button><a th:href="@{/welcomePage}" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Home
+                    </a></button>
+        </form>
+    </div>
+
+    <script>
+    function showSelectedFiles() {
+        const input = document.getElementById('evidence');
+        const fileList = document.getElementById('fileList');
+        fileList.innerHTML = '';
+
+        for (const file of input.files) {
+            const li = document.createElement('li');
+            li.textContent = '* ' + file.name;
+            li.style.marginBottom = '5px';
+            fileList.appendChild(li);
+        }
+    }
+
+</script>
+</body>
+</html>

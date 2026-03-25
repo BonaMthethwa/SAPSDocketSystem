@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Deleted Dockets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Deleted Dockets</h2>
+
+    <div th:if="${successMessage}" class="alert alert-success" role="alert" style="margin-top:20px;">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <table class="table table-bordered table-striped mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>Case Number</th>
+                <th>Complainant Name</th>
+                <th>Case Title</th>
+                <th>Deleted By</th>
+                <th>Deleted At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="docket : ${deletedDockets}">
+                <td th:text="${docket.caseNumber}"></td>
+                <td th:text="${docket.complainantName}"></td>
+                <td th:text="${docket.caseTitle}"></td>
+                <td th:text="${docket.deletedBy != null ? docket.deletedBy.name + ' ' + docket.deletedBy.surname : 'N/A'}"></td>
+                <td th:text="${#dates.format(docket.deletedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <form th:action="@{/admin/restoreDocket/{id}(id=${docket.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-success">Restore</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <button><a th:href="@{/admin/welcomeAdmin}" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+    </button>
+
+</div>
+</body>
+</html>

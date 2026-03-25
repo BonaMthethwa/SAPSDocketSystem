@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Dockets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">All Dockets</h2>
+    <table class="table table-bordered table-striped mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>Case Number</th>
+                <th>Complainant Name</th>
+                <th>Case Title</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="docket : ${dockets}">
+                <td th:text="${docket.caseNumber}"></td>
+                <td th:text="${docket.complainantName}"></td>
+                <td th:text="${docket.caseTitle}"></td>
+                
+                <td th:text="${docket.caseStatus}"></td>
+                
+                
+                <td>
+    <a th:href="@{/edit/{caseNumber}(caseNumber=${docket.caseNumber})}" class="btn btn-sm btn-primary">Edit</a>
+
+    <form th:action="@{/delete/{id}(id=${docket.id})}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-sm btn-danger" 
+            onclick="return confirm('Are you sure you want to delete this docket?');">
+            Delete
+        </button>
+        
+    </form>
+    <a th:href="@{/dockets/download/{id}(id=${docket.id})}" class="btn btn-success mt-2">Download add. info</a>
+    <a th:href="@{/downloadDocketPDF/{id}(id=${docket.id})}" class="btn btn-info mt-2">Download complete PDF</a>
+
+    </a>
+
+</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div th:if="${successMessage}" class="alert alert-success" role="alert" style="margin-top:20px;">
+    <p th:text="${successMessage}"></p>
+</div>
+<div>
+    <button><a th:href="@{/welcomePage}" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+    </button>
+
+</div>
+
+</body>
+</html>
